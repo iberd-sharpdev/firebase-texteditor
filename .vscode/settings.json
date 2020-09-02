@@ -1,0 +1,13 @@
+{
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true
+    },
+    "editor.detectIndentation": false,
+    "html.format.wrapAttributes": "force-expand-multiline",
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "cSpell.words": [
+        "texteditor"
+    ]
+}

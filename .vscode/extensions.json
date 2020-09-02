@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "angular.ng-template",
+        "gruntfuggly.todo-tree",
+        "esbenp.prettier-vscode",
+        "cyrilletuzi.angular-schematics",
+        "ms-vscode.vscode-typescript-tslint-plugin"
+    ]
+}

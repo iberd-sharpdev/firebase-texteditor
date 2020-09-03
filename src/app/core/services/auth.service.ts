@@ -22,6 +22,7 @@ export class AuthService {
     }
 
     public logout(): void {
+        this.currentUser$.next(null);
         this.afAuth.signOut().then(() => {
             this.router.navigate(['/auth']);
         });
@@ -30,11 +31,9 @@ export class AuthService {
     private _handleAuthPromise(promise: Promise<UserCredentialsType>): void {
         promise
             .then((info: UserCredentialsType) => {
-                console.log('info =>', info);
                 this.router.navigate(['/home']);
             })
             .catch((error: firebase.auth.Error) => {
-                console.log('error =>', error);
                 this.authError$.next(error);
             });
     }

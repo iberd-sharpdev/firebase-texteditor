@@ -10,7 +10,7 @@ import { MathServiceImpl } from './math.service';
     selector: '[appMath]'
 })
 export class MathDirective implements OnInit, OnChanges, OnDestroy {
-    private alive$ = new Subject<boolean>();
+    private unsubscribe$ = new Subject();
 
     @Input()
     private appMath: MathContent;
@@ -28,7 +28,7 @@ export class MathDirective implements OnInit, OnChanges, OnDestroy {
             .ready()
             .pipe(
                 take(1),
-                takeUntil(this.alive$)
+                takeUntil(this.unsubscribe$)
             ).subscribe(res => {
                 this.service.render(this._el, this.appMath);
             });
@@ -40,6 +40,7 @@ export class MathDirective implements OnInit, OnChanges, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.alive$.next(false);
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
     }
 }

@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { concatMap, debounceTime, takeUntil } from 'rxjs/operators';
 
 import { UserInfoType } from '@core/models';
 import { AuthService, EditorService } from '@core/services';
@@ -42,28 +42,33 @@ export class EditorComponent implements OnInit, OnDestroy {
         this.currentUser = this.authService.currentUser$.getValue();
         this.editor = new MediumEditor(this.editable.nativeElement, MEDIUM_CONFIG);
 
+        // listen editor changes
         this.editorSub$ = this.editor
             .subscribe('editableInput', (event: InputEvent) => {
-                console.log('new symbol =>', event.data);
+                console.log('* new symbol =>', event.data);
                 this.typing$.next();
+            });
 
-                const editorHTML = String(this.editable.nativeElement.innerHTML);
-                console.log('editor content =>', editorHTML);
-                this.mathLatex = {
-                    latex: htmlToText.fromString(editorHTML),
-                };
+        // save user input
+        this.typing$
+            .pipe(
+                debounceTime(300),
+                concatMap(() => {
+                    const editorHTML = String(this.editable.nativeElement.innerHTML);
+                    this.mathLatex = { latex: htmlToText.fromString(editorHTML) };
+                    return this.editorService.saveUserInput(editorHTML);
+                }),
+                takeUntil(this.unsubscribe$),
+            )
+            .subscribe(() => {
+                console.log(`SAVED (${new Date()})`);
             });
     }
 
     ngOnDestroy(): void {
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
         this.editorSub$.unsubscribe('editableInput', null);
-    }
-
-    public onPush(): void {
-        const editorHTML = String(this.editable.nativeElement.innerHTML);
-        this.editorService.saveUserInput(editorHTML)
-            .pipe(takeUntil(this.unsubscribe$))
-            .subscribe(() => console.log(`SAVED (${new Date()})`));
     }
 
     // TODO: delete this block

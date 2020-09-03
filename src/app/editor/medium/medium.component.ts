@@ -1,4 +1,6 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+
+import { MEDIUM_CONFIG } from './medium-config';
 
 import { MediumEditor } from 'medium-editor';
 
@@ -7,18 +9,19 @@ import { MediumEditor } from 'medium-editor';
     templateUrl: './medium.component.html',
     styleUrls: ['./medium.component.scss']
 })
-export class MediumComponent implements OnInit, AfterViewInit {
+export class MediumComponent implements OnInit {
     @ViewChild('editable', { static: true }) editable: ElementRef;
 
-    public editor: any;
-
-    constructor() { }
+    public editor: MediumEditor;
 
     ngOnInit(): void {
-        console.log('init');
-    }
+        this.editor = new MediumEditor(this.editable.nativeElement, MEDIUM_CONFIG);
 
-    ngAfterViewInit(): void {
-        this.editor = new MediumEditor(this.editable.nativeElement);
+        this.editor.subscribe('editableInput', (event: InputEvent) => {
+            const editorText = String(this.editable.nativeElement.innerHTML);
+
+            console.log('symbol =>', event.data);
+            console.log('text =>', editorText);
+        });
     }
 }

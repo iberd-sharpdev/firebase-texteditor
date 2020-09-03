@@ -3,6 +3,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { CoreModule } from '@core/core.module';
 import { environment } from '@env/environment';
 import { HeaderComponent, HomeComponent, NotFoundComponent } from '@layout/index';
 
@@ -18,8 +19,18 @@ const PAGES = [EditorComponent];
 const FIREBASE_INTEGRATION = [AngularFireModule.initializeApp(environment.firebase), AngularFireAuthModule];
 
 @NgModule({
-    declarations: [AppComponent, ...LAYOUT, ...PAGES],
-    imports: [BrowserModule, AppRoutingModule, MathModule.forRoot()],
+    declarations: [
+        AppComponent,
+        ...LAYOUT,
+        ...PAGES,
+    ],
+    imports: [
+        BrowserModule,
+        CoreModule.forRoot(),
+        MathModule.forRoot(),
+        ...FIREBASE_INTEGRATION,
+        AppRoutingModule,
+    ],
     providers: [],
     bootstrap: [AppComponent],
 })

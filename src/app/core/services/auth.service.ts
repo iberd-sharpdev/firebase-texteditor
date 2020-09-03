@@ -24,6 +24,7 @@ export class AuthService {
     public logout(): void {
         this.currentUser$.next(null);
         this.afAuth.signOut().then(() => {
+            localStorage.removeItem('uid');
             this.router.navigate(['/auth']);
         });
     }
@@ -31,6 +32,7 @@ export class AuthService {
     private _handleAuthPromise(promise: Promise<UserCredentialsType>): void {
         promise
             .then((info: UserCredentialsType) => {
+                localStorage.setItem('uid', info?.user?.uid || null);
                 this.router.navigate(['/home']);
             })
             .catch((error: firebase.auth.Error) => {

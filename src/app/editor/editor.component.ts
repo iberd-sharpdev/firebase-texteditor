@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
-import { concatMap, debounceTime, takeUntil } from 'rxjs/operators';
+import { concatMap, debounceTime, first, take, takeUntil } from 'rxjs/operators';
 
 import { UserInfoType } from '@core/models';
 import { AuthService, EditorService } from '@core/services';
@@ -42,6 +42,17 @@ export class EditorComponent implements OnInit, OnDestroy {
         this.currentUser = this.authService.currentUser$.getValue();
         this.editor = new MediumEditor(this.editable.nativeElement, MEDIUM_CONFIG);
 
+        // load user input
+        this.editorService.loadFromDatabase()
+            .pipe(
+                first(),
+                takeUntil(this.unsubscribe$),
+            )
+            .subscribe((content: string) => {
+                console.log('LOAD =>', content);
+                this.editor.setContent(content);
+            });
+
         // listen editor changes
         this.editorSub$ = this.editor
             .subscribe('editableInput', (event: InputEvent) => {
@@ -54,14 +65,14 @@ export class EditorComponent implements OnInit, OnDestroy {
             .pipe(
                 debounceTime(300),
                 concatMap(() => {
-                    const editorHTML = String(this.editable.nativeElement.innerHTML);
-                    this.mathLatex = { latex: htmlToText.fromString(editorHTML) };
-                    return this.editorService.saveUserInput(editorHTML);
+                    const editorContent = String(this.editable.nativeElement.innerHTML);
+                    this.mathLatex = { latex: htmlToText.fromString(editorContent) };
+                    return this.editorService.saveToDatabase(editorContent);
                 }),
                 takeUntil(this.unsubscribe$),
             )
             .subscribe(() => {
-                console.log(`SAVED (${new Date()})`);
+                console.log(`SAVE (${new Date()})`);
             });
     }
 

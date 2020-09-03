@@ -2,9 +2,9 @@ import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core
 
 import { AuthGuard } from '@core/guards';
 import { throwIfAlreadyLoaded } from '@core/guards/module-import.guard';
-import { AuthService } from '@core/services';
+import { AuthService, EditorService } from '@core/services';
 
-const SERVICES = [AuthService];
+const SERVICES = [AuthService, EditorService];
 
 const GUARDS = [AuthGuard];
 

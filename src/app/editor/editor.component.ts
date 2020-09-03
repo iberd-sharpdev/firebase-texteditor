@@ -1,6 +1,9 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
+import { concatMap, debounceTime, takeUntil } from 'rxjs/operators';
 
+import { UserInfoType } from '@core/models';
+import { AuthService, EditorService } from '@core/services';
 import { MathContent } from '@src/common/math.interface';
 
 import { MEDIUM_CONFIG } from './medium-config';
@@ -16,6 +19,7 @@ import { MediumEditor } from 'medium-editor';
 export class EditorComponent implements OnInit, OnDestroy {
     @ViewChild('editable', { static: true }) editable: ElementRef;
 
+    public currentUser: UserInfoType;
     public editor: MediumEditor;
     public mathLatex: MathContent = { latex: 'latex placeholder' };
 
@@ -27,24 +31,43 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     private editorSub$: any;
     private typing$ = new Subject();
+    private unsubscribe$ = new Subject();
+
+    constructor(
+        private authService: AuthService,
+        private editorService: EditorService,
+    ) { }
 
     ngOnInit(): void {
+        this.currentUser = this.authService.currentUser$.getValue();
         this.editor = new MediumEditor(this.editable.nativeElement, MEDIUM_CONFIG);
 
+        // listen editor changes
         this.editorSub$ = this.editor
             .subscribe('editableInput', (event: InputEvent) => {
-                console.log('new symbol =>', event.data);
+                console.log('* new symbol =>', event.data);
                 this.typing$.next();
+            });
 
-                const editorHTML = String(this.editable.nativeElement.innerHTML);
-                console.log('editor content =>', editorHTML);
-                this.mathLatex = {
-                    latex: htmlToText.fromString(editorHTML),
-                };
+        // save user input
+        this.typing$
+            .pipe(
+                debounceTime(300),
+                concatMap(() => {
+                    const editorHTML = String(this.editable.nativeElement.innerHTML);
+                    this.mathLatex = { latex: htmlToText.fromString(editorHTML) };
+                    return this.editorService.saveUserInput(editorHTML);
+                }),
+                takeUntil(this.unsubscribe$),
+            )
+            .subscribe(() => {
+                console.log(`SAVED (${new Date()})`);
             });
     }
 
     ngOnDestroy(): void {
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
         this.editorSub$.unsubscribe('editableInput', null);
     }
 

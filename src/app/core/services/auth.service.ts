@@ -13,7 +13,10 @@ export class AuthService {
     public authError$ = new Subject<firebase.auth.Error>();
     public currentUser$ = new BehaviorSubject<UserInfoType>(null);
 
-    constructor(private router: Router, private afAuth: AngularFireAuth) { }
+    constructor(
+        private router: Router,
+        private afAuth: AngularFireAuth,
+    ) { }
 
     public loginWithGoogle(): void {
         const googleProvider = new firebase.auth.GoogleAuthProvider();

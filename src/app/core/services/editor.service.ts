@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireDatabase, SnapshotAction } from '@angular/fire/database';
 import { from, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { UserInfoType } from '../models';
 import { AuthService } from './auth.service';
@@ -17,9 +18,15 @@ export class EditorService {
         return this.authService.currentUser$.getValue();
     }
 
-    public saveUserInput(text: string): Observable<any> {
+    public saveToDatabase(content: string): Observable<any> {
         const path = `users/${this.currentUser.uid}/editor`;
-        const promise = this.realtimeFirebaseDB.object(path).set(text);
+        const promise = this.realtimeFirebaseDB.object(path).set(content);
         return from(promise);
+    }
+
+    public loadFromDatabase(): Observable<any> {
+        const path = `users/${this.currentUser.uid}/editor`;
+        return this.realtimeFirebaseDB.object(path).snapshotChanges()
+            .pipe(map((snapshot: SnapshotAction<any>) => snapshot.payload.val()));
     }
 }

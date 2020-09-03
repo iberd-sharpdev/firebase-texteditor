@@ -7,6 +7,7 @@ import { MathContent } from 'src/common/math.interface';
     styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+	public isAppLoaded = true;
     mathLatex: MathContent = {
         latex: 'When $a \\ne 0$, there are two solutions to $\\frac{5}{9}$'
     };

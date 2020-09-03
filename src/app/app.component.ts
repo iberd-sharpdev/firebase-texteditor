@@ -1,21 +1,37 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
-import { MathContent } from '@src/common/math.interface';
+import { UserInfoType } from './core/models';
+import { AuthService } from './core/services';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-    public isAppLoaded = true;
-    mathLatex: MathContent = {
-        latex: 'When $a \\ne 0$, there are two solutions to $\\frac{5}{9}$'
-    };
+export class AppComponent implements OnInit, OnDestroy {
+    public isAppLoaded = false;
 
-    textChange(event) {
-        this.mathLatex = {
-            latex: event.target.value
-        };
+    private unsubscribe$ = new Subject();
+
+    constructor(
+        private authService: AuthService,
+    ) { }
+
+    ngOnInit(): void {
+        this.authService.authState$
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe((user: UserInfoType) => {
+                console.log('[AppComponent] CURRENT_USER =>', user);
+                localStorage.setItem('uid', user?.uid || null);
+                this.authService.currentUser$.next(user);
+                this.isAppLoaded = true;
+            });
+    }
+
+    ngOnDestroy(): void {
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
     }
 }

@@ -4,10 +4,12 @@
     "compilerOptions": {
         "outDir": "./out-tsc/app",
         "types": ["mathjax"],
-        "baseUrl": "./src",
+        "baseUrl": "src",
+        "importHelpers": true,
         "paths": {
-            "@src/*": ["./*"],
+            "@src/*": ["*"],
             "@env/*": ["environments/*"],
+            "@core/*": ["app/core/*"],
             "@layout/*": ["app/layout/*"]
         }
     },

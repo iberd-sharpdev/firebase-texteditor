@@ -2,7 +2,9 @@
     <a
         class="navbar-brand"
         routerLink="/"
-    >FirebaseTexteditor</a>
+    >
+        FirebaseTexteditor
+    </a>
 
     <button
         class="navbar-toggler"
@@ -20,6 +22,7 @@
         class="collapse navbar-collapse"
         id="navbarColor01"
     >
+        <!-- NAVIGATION -->
         <ul class="navbar-nav mr-auto">
             <li
                 *ngFor="let link of links"
@@ -34,5 +37,26 @@
                 </a>
             </li>
         </ul>
+
+        <!-- ACCOUNT -->
+        <div class="account">
+            <span class="account__user-name">
+                {{ currentUser ? (currentUser.displayName || currentUser.email) : 'Guest' }}
+            </span>
+
+            <div
+                class="btn-group account__actions ml-4"
+                role="group"
+            >
+                <button
+                    *ngIf="currentUser"
+                    type="button"
+                    class="btn btn-danger"
+                    (click)="onLogout()"
+                >
+                    Log Out
+                </button>
+            </div>
+        </div>
     </div>
 </nav>

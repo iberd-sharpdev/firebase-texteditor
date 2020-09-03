@@ -8,5 +8,12 @@
             #editable
             class="col-8 medium-editor"
         ></div>
+
+        <div
+            *ngIf="editor"
+            class="col-4 shadow"
+            [innerHTML]="editor.elements[0].innerHTML"
+            [appMath]="mathLatex"
+        ></div>
     </div>
 </div>

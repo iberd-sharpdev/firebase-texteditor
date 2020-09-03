@@ -1,7 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
+import { MathContent } from '@src/common/math.interface';
+
 import { MEDIUM_CONFIG } from './medium-config';
 
+import * as htmlToText from 'html-to-text';
 import { MediumEditor } from 'medium-editor';
 
 @Component({
@@ -14,14 +17,22 @@ export class EditorComponent implements OnInit {
 
     public editor: MediumEditor;
 
+    public mathLatex: MathContent = {
+        latex: 'When $a \\ne 0$, there are two solutions to $\\frac{5}{9}$'
+    };
+
     ngOnInit(): void {
         this.editor = new MediumEditor(this.editable.nativeElement, MEDIUM_CONFIG);
 
         this.editor.subscribe('editableInput', (event: InputEvent) => {
-            const editorText = String(this.editable.nativeElement.innerHTML);
+            const editorHTML = String(this.editable.nativeElement.innerHTML);
 
-            console.log('symbol =>', event.data);
-            console.log('text =>', editorText);
+            console.log('new symbol =>', event.data);
+            console.log('editor content =>', editorHTML);
+
+            this.mathLatex = {
+                latex: htmlToText.fromString(editorHTML),
+            };
         });
     }
 }

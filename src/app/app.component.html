@@ -19,6 +19,11 @@
     </div>
 </div>
 
-<textarea (input)="textChange($event)"></textarea>
 
-<div [appMath]="mathLatex"></div>
+<div style="width: 50%; margin: 20px auto 0; padding: 10px; border: 1px solid;">
+    <label>LaTex DEMO</label>
+    <br>
+
+    <textarea (input)="textChange($event)"></textarea>
+    <div [appMath]="mathLatex"></div>
+</div>

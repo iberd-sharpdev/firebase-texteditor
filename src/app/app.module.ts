@@ -8,6 +8,7 @@ import { HeaderComponent, HomeComponent, NotFoundComponent } from '@layout/index
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MathModule } from './mathjax/math.module';
 
 const LAYOUT_COMPONENTS = [HeaderComponent, HomeComponent, NotFoundComponent];
 
@@ -15,7 +16,7 @@ const FIREBASE_INTEGRATION = [AngularFireModule.initializeApp(environment.fireba
 
 @NgModule({
     declarations: [AppComponent, ...LAYOUT_COMPONENTS],
-    imports: [BrowserModule, AppRoutingModule],
+    imports: [BrowserModule, AppRoutingModule, MathModule.forRoot()],
     providers: [],
     bootstrap: [AppComponent],
 })

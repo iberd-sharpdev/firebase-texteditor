@@ -6,8 +6,12 @@
     },
     "editor.detectIndentation": false,
     "html.format.wrapAttributes": "force-expand-multiline",
+    "javascript.implicitProjectConfig.experimentalDecorators": true,
     "typescript.tsdk": "node_modules/typescript/lib",
     "cSpell.words": [
         "texteditor"
-    ]
+    ],
+    "[typescript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    }
 }

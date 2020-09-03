@@ -5,11 +5,11 @@ import { MEDIUM_CONFIG } from './medium-config';
 import { MediumEditor } from 'medium-editor';
 
 @Component({
-    selector: 'app-medium',
-    templateUrl: './medium.component.html',
-    styleUrls: ['./medium.component.scss']
+    selector: 'app-editor',
+    templateUrl: './editor.component.html',
+    styleUrls: ['./editor.component.scss']
 })
-export class MediumComponent implements OnInit {
+export class EditorComponent implements OnInit {
     @ViewChild('editable', { static: true }) editable: ElementRef;
 
     public editor: MediumEditor;

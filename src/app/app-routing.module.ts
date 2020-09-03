@@ -4,6 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from '@layout/home/home.component';
 import { NotFoundComponent } from '@layout/not-found/not-found.component';
 
+import { EditorComponent } from './editor/editor.component';
+
 const routes: Routes = [
     {
         path: 'home',
@@ -11,7 +13,7 @@ const routes: Routes = [
     },
     {
         path: 'editor',
-        loadChildren: () => import('./editor/editor.module').then(m => m.EditorModule),
+        component: EditorComponent,
     },
 
     {

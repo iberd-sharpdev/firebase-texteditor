@@ -30,10 +30,11 @@ export class AuthService {
     private _handleAuthPromise(promise: Promise<UserCredentialsType>): void {
         promise
             .then((info: UserCredentialsType) => {
-                localStorage.setItem('uid', info?.user?.uid || '');
+                console.log('info =>', info);
                 this.router.navigate(['/home']);
             })
             .catch((error: firebase.auth.Error) => {
+                console.log('error =>', error);
                 this.authError$.next(error);
             });
     }

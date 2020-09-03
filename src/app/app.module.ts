@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { CoreModule } from '@core/core.module';
@@ -13,11 +14,22 @@ import { AuthComponent } from './auth/auth.component';
 import { EditorComponent } from './editor/editor.component';
 import { MathModule } from './mathjax/math.module';
 
-const LAYOUT = [HeaderComponent, HomeComponent, NotFoundComponent];
+const LAYOUT = [
+    HeaderComponent,
+    HomeComponent,
+    NotFoundComponent,
+];
 
-const PAGES = [AuthComponent, EditorComponent];
+const PAGES = [
+    AuthComponent,
+    EditorComponent,
+];
 
-const FIREBASE_INTEGRATION = [AngularFireModule.initializeApp(environment.firebase), AngularFireAuthModule];
+const FIREBASE_INTEGRATION = [
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    AngularFireDatabaseModule,
+];
 
 @NgModule({
     declarations: [

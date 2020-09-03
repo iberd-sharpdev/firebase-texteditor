@@ -1,16 +1,15 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/database';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { UserInfoType } from '@core/models';
+import { AuthService, EditorService } from '@core/services';
 import { MathContent } from '@src/common/math.interface';
 
 import { MEDIUM_CONFIG } from './medium-config';
 
 import * as htmlToText from 'html-to-text';
 import { MediumEditor } from 'medium-editor';
-import { AuthService } from '../core/services';
-import { UserInfoType } from '../core/models';
 
 @Component({
     selector: 'app-editor',
@@ -36,7 +35,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     constructor(
         private authService: AuthService,
-        private realtimeFirebaseDB: AngularFireDatabase,
+        private editorService: EditorService,
     ) { }
 
     ngOnInit(): void {
@@ -62,8 +61,9 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     public onPush(): void {
         const editorHTML = String(this.editable.nativeElement.innerHTML);
-        const path = `users/${this.currentUser.uid}/editor`;
-        this.realtimeFirebaseDB.object(path).set(editorHTML);
+        this.editorService.saveUserInput(editorHTML)
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe(() => console.log(`SAVED (${new Date()})`));
     }
 
     // TODO: delete this block

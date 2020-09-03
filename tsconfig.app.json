@@ -3,9 +3,10 @@
     "extends": "./tsconfig.base.json",
     "compilerOptions": {
         "outDir": "./out-tsc/app",
-        "types": [],
+        "types": ["mathjax"],
         "baseUrl": "./src",
         "paths": {
+            "@src/*": ["./*"],
             "@env/*": ["environments/*"],
             "@layout/*": ["app/layout/*"]
         }

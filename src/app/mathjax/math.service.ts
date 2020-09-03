@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observer, ReplaySubject, Observable } from 'rxjs';
-import { MathContent } from '../../common/math.interface';
+import { Observable, Observer, ReplaySubject } from 'rxjs';
+
+import { MathContent } from '@src/common/math.interface';
 
 
 declare global {

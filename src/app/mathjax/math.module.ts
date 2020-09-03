@@ -1,6 +1,7 @@
-import { NgModule, ModuleWithProviders } from "@angular/core";
-import { MathDirective } from "./math.directive";
-import { MathServiceImpl } from "./math.service";
+import { ModuleWithProviders, NgModule } from '@angular/core';
+
+import { MathDirective } from './math.directive';
+import { MathServiceImpl } from './math.service';
 
 @NgModule({
     declarations: [MathDirective],

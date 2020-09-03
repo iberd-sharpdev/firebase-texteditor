@@ -13,5 +13,6 @@ interface ILink {
 export class HeaderComponent {
     public links: ILink[] = [
         { title: 'Home', url: '/home' },
+        { title: 'Editor', url: '/editor' },
     ];
 }

@@ -1,8 +1,7 @@
 {
     "scripts": {
         "===> START <===": "----------",
-        "start": "npm run start:prod",
-        "start:prod": "ng serve --configuration=production",
+        "start": "ng serve",
         "===> BUILD <===": "----------",
         "build": "ng build",
         "===> CHECKS <===": "----------",

@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
-import { concatMap, debounceTime, takeUntil } from 'rxjs/operators';
+import { concatMap, debounceTime, first, take, takeUntil } from 'rxjs/operators';
 
 import { UserInfoType } from '@core/models';
 import { AuthService, EditorService } from '@core/services';
@@ -44,9 +44,13 @@ export class EditorComponent implements OnInit, OnDestroy {
 
         // load user input
         this.editorService.loadFromDatabase()
-            .pipe(takeUntil(this.unsubscribe$))
+            .pipe(
+                first(),
+                takeUntil(this.unsubscribe$),
+            )
             .subscribe((content: string) => {
                 console.log('LOAD =>', content);
+                this.editor.setContent(content);
             });
 
         // listen editor changes

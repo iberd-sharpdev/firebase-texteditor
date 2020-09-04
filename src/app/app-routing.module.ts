@@ -9,10 +9,9 @@ import { EditorComponent } from './editor/editor.component';
 
 const routes: Routes = [
     { path: 'auth', component: AuthComponent },
-
     { path: 'editor', canActivate: [AuthGuard], component: EditorComponent },
-    { path: 'not-found', canActivate: [AuthGuard], component: NotFoundComponent },
 
+    { path: 'not-found', component: NotFoundComponent },
     { path: '', pathMatch: 'full', redirectTo: 'editor' },
     { path: '**', redirectTo: 'not-found' },
 ];

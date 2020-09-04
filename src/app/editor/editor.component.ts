@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
-import { concatMap, debounceTime, first, take, takeUntil } from 'rxjs/operators';
+import { concatMap, debounceTime, first, skip, take, takeUntil } from 'rxjs/operators';
 
 import { UserInfoType } from '@core/models';
 import { AuthService, EditorService } from '@core/services';
@@ -41,9 +41,10 @@ export class EditorComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.currentUser = this.authService.currentUser$.getValue();
         this.editor = new MediumEditor(this.editable.nativeElement, MEDIUM_CONFIG);
+        console.log('this.currentUser =>', this.currentUser);
 
         // load user input
-        this.editorService.loadFromDatabase()
+        this.editorService.loadFromDatabase(this.currentUser.uid)
             .pipe(
                 first(),
                 takeUntil(this.unsubscribe$),
@@ -63,11 +64,12 @@ export class EditorComponent implements OnInit, OnDestroy {
         // save user input
         this.typing$
             .pipe(
+                skip(1),
                 debounceTime(300),
                 concatMap(() => {
                     const editorContent = String(this.editable.nativeElement.innerHTML);
                     this.mathLatex = { latex: htmlToText.fromString(editorContent) };
-                    return this.editorService.saveToDatabase(editorContent);
+                    return this.editorService.saveToDatabase(this.currentUser.uid, editorContent);
                 }),
                 takeUntil(this.unsubscribe$),
             )

@@ -8,7 +8,9 @@ import { AuthService } from '../core/services';
     styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent {
-    constructor(private authService: AuthService) { }
+    constructor(
+        private authService: AuthService,
+    ) { }
 
     public onLogin(): void {
         this.authService.loginWithGoogle();

@@ -66,7 +66,6 @@ export class EditorComponent implements OnInit, OnDestroy {
                 debounceTime(300),
                 concatMap(() => {
                     const editorContent = String(this.editable.nativeElement.innerHTML);
-                    this.mathLatex = { latex: htmlToText.fromString(editorContent) };
                     return this.editorService.saveToDatabase(editorContent);
                 }),
                 takeUntil(this.unsubscribe$),

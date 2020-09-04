@@ -13,7 +13,7 @@ export class MathModule {
         const script = document.createElement('script') as HTMLScriptElement;
         script.type = 'text/javascript';
         script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML';
-        script.async = true;
+        script.async = false;
 
         document.getElementsByTagName('head')[0].appendChild(script);
 

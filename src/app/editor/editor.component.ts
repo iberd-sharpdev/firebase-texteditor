@@ -1,10 +1,9 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
-import { concatMap, debounceTime, first, skip, take, takeUntil } from 'rxjs/operators';
+import { concatMap, debounceTime, first, skip, takeUntil } from 'rxjs/operators';
 
 import { UserInfoType } from '@core/models';
 import { AuthService, EditorService } from '@core/services';
-import { MathContent } from '@src/common/math.interface';
 
 import { MEDIUM_CONFIG } from './medium-config';
 
@@ -50,7 +49,7 @@ export class EditorComponent implements OnInit, OnDestroy {
         this.editorSub$ = this.editor
             .subscribe('editableInput', (event: InputEvent) => {
                 console.log('* new symbol =>', event.data);
-                this.typing$.next();
+                setTimeout(() => this.typing$.next());
             });
 
         // save user input
@@ -59,7 +58,8 @@ export class EditorComponent implements OnInit, OnDestroy {
                 skip(1),
                 debounceTime(300),
                 concatMap(() => {
-                    const editorContent = String(this.editable.nativeElement.innerHTML);
+                    const editorContent = this.editable.nativeElement.innerHTML;
+                    console.log('CONTENT =>', editorContent);
                     return this.editorService.saveToDatabase(this.currentUser.uid, editorContent);
                 }),
                 takeUntil(this.unsubscribe$),

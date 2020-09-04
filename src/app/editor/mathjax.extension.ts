@@ -1,20 +1,20 @@
 import { EditorComponent } from './editor.component';
 
-//@ts-ignore
+// @ts-ignore
 export const MathJaxExtension = MediumEditor.Extension.extend({
     name: 'mathjax-plugin',
-    init: function () {
+    init() {
         this.subscribe('editableKeydown', this.handleKeyDown.bind(this));
     },
-    handleKeyDown: function (event, editable) {
-        if (event.key !== '$') return;
+    handleKeyDown(event, editable) {
+        if (event.key !== '$') { return; }
 
-        let regex = /\$[^\$]+\$/g;
+        const regex = /\$[^\$]+\$/g;
         setTimeout(() => {
             const result = regex.exec(editable.innerHTML);
             console.log('MATCH!', result);
 
-            if (!result) return;
+            if (!result) { return; }
 
             const div = document.createElement('div');
             div.id = '__mathTemp';
@@ -23,7 +23,7 @@ export const MathJaxExtension = MediumEditor.Extension.extend({
             document.body.appendChild(div);
 
             MathJax.Hub.Queue(
-                ["Typeset", MathJax.Hub, "__mathTemp"],
+                ['Typeset', MathJax.Hub, '__mathTemp'],
                 // @ts-ignore
                 function () {
                     const startIdx = result.index;

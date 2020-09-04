@@ -1,9 +1,9 @@
 {
     "scripts": {
-        "===> START <===": "----------",
+        "===> MAIN <===": "----------",
         "start": "ng serve",
-        "===> BUILD <===": "----------",
         "build": "ng build",
+        "deploy": "npm run build && firebase deploy",
         "===> CHECKS <===": "----------",
         "lint": "ng lint",
         "lint-fix": "ng lint --fix=true",

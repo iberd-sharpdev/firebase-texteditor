@@ -24,7 +24,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     private unsubscribe$ = new Subject();
 
-    constructor(private authService: AuthService) { }
+    constructor(
+        private authService: AuthService,
+    ) { }
 
     ngOnInit(): void {
         this.authService.currentUser$

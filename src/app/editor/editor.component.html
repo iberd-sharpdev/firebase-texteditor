@@ -9,21 +9,24 @@
             class="col-8 medium-editor"
         ></div>
 
+        <!-- TODO: delete this block -->
         <div
             *ngIf="editor"
+            style="display: none;"
             class="col-4 shadow"
             [innerHTML]="editor.elements[0].innerHTML"
             [appMath]="mathLatex"
         ></div>
+        <!-- --- -->
     </div>
 </div>
 
 <!-- TODO: delete this block -->
-<div style="width: 50%; margin: 20px auto 0; padding: 10px; border: 1px solid;">
+<div style="display: none;">
     <label>LaTex DEMO</label>
     <br>
 
     <textarea (input)="textChange($event)"></textarea>
-    <div [appMath]="mathLatex"></div>
+    <div [appMath]="mathLatexDemo"></div>
 </div>
 <!-- --- -->

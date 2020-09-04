@@ -6,7 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { CoreModule } from '@core/core.module';
 import { environment } from '@env/environment';
-import { HeaderComponent, HomeComponent, NotFoundComponent } from '@layout/index';
+import { HeaderComponent, NotFoundComponent } from '@layout/index';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,7 +16,6 @@ import { MathModule } from './mathjax/math.module';
 
 const LAYOUT = [
     HeaderComponent,
-    HomeComponent,
     NotFoundComponent,
 ];
 
@@ -36,7 +35,6 @@ const FIREBASE_INTEGRATION = [
         AppComponent,
         ...LAYOUT,
         ...PAGES,
-        AuthComponent,
     ],
     imports: [
         BrowserModule,

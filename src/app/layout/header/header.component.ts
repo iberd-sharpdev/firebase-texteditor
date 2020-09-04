@@ -19,8 +19,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public currentUser: UserInfoType;
 
     public links: ILink[] = [
-        { title: 'Home', url: '/home' },
-        { title: 'Editor', url: '/editor' },
+        // { title: 'Editor', url: '/editor' },
     ];
 
     private unsubscribe$ = new Subject();

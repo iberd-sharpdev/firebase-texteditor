@@ -2,8 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from '@core/guards';
-import { HomeComponent } from '@layout/home/home.component';
-import { NotFoundComponent } from '@layout/not-found/not-found.component';
+import { NotFoundComponent } from '@layout/index';
 
 import { AuthComponent } from './auth/auth.component';
 import { EditorComponent } from './editor/editor.component';
@@ -11,11 +10,10 @@ import { EditorComponent } from './editor/editor.component';
 const routes: Routes = [
     { path: 'auth', component: AuthComponent },
 
-    { path: 'home', canActivate: [AuthGuard], component: HomeComponent },
     { path: 'editor', canActivate: [AuthGuard], component: EditorComponent },
     { path: 'not-found', canActivate: [AuthGuard], component: NotFoundComponent },
 
-    { path: '', pathMatch: 'full', redirectTo: 'home' },
+    { path: '', pathMatch: 'full', redirectTo: 'editor' },
     { path: '**', redirectTo: 'not-found' },
 ];
 

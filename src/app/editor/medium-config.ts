@@ -1,6 +1,7 @@
 import { MEDIUM_BUTTONS } from './medium-buttons';
 
 import { CoreOptions } from 'medium-editor';
+import { MathJaxExtension } from './mathjax.extension';
 
 export const MEDIUM_CONFIG: CoreOptions = {
     /* This example includes the default options for placeholder,
@@ -38,5 +39,8 @@ export const MEDIUM_CONFIG: CoreOptions = {
         align: 'center',
         sticky: false,
         updateOnEmptySelection: false
+    },
+    extensions: {
+        'mathjax-plugin': new MathJaxExtension()
     }
 };

@@ -8,7 +8,6 @@ import { MathContent } from '@src/common/math.interface';
 
 import { MEDIUM_CONFIG } from './medium-config';
 
-import * as htmlToText from 'html-to-text';
 import { MediumEditor } from 'medium-editor';
 
 @Component({
@@ -21,13 +20,6 @@ export class EditorComponent implements OnInit, OnDestroy {
 
     public currentUser: UserInfoType;
     public editor: MediumEditor;
-    public mathLatex: MathContent = { latex: 'latex placeholder' };
-
-    // TODO: delete this block
-    public mathLatexDemo: MathContent = {
-        latex: 'When $a \\ne 0$, there are two solutions to $\\frac{5}{9}$'
-    };
-    // ---
 
     private editorSub$: any;
     private typing$ = new Subject();
@@ -68,7 +60,6 @@ export class EditorComponent implements OnInit, OnDestroy {
                 debounceTime(300),
                 concatMap(() => {
                     const editorContent = String(this.editable.nativeElement.innerHTML);
-                    this.mathLatex = { latex: htmlToText.fromString(editorContent) };
                     return this.editorService.saveToDatabase(this.currentUser.uid, editorContent);
                 }),
                 takeUntil(this.unsubscribe$),
@@ -83,12 +74,4 @@ export class EditorComponent implements OnInit, OnDestroy {
         this.unsubscribe$.complete();
         this.editorSub$.unsubscribe('editableInput', null);
     }
-
-    // TODO: delete this block
-    public textChange(event): void {
-        this.mathLatexDemo = {
-            latex: event.target.value
-        };
-    }
-    // ---
 }
